@@ -1,5 +1,6 @@
-import express,{Application, Request, Response} from "express"
-import { userRoute } from "./modules/auth.route";
+
+import express,{ Application, Request, Response } from "express";
+import { authRoutes } from "./modules/auth/auth.routes";
 
 
 const app:Application = express();
@@ -8,5 +9,6 @@ app.get("/",(req:Request,res:Response)=>{
 res.send("rentnest server is running")
 })
 
-app.use("/api/auth",userRoute)
+app.use("/api/auth",authRoutes)
+
 export default app;

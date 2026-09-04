@@ -16,3 +16,17 @@ export const validateRegistrationInput = (data:any)=>{
     }
     return errors;
 }
+
+
+
+export const validateLoginInput = (data:any)=>{
+    const errors:string[] =[];
+    if(!data.email || !data.email.includes("@")){
+        errors.push("Invalid email format")
+    }
+
+    if(!data.password){
+        errors.push("Password is required")
+    }
+    return errors;
+}

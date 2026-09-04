@@ -1,7 +1,7 @@
 import bcrypt from "bcryptjs";
 import { prisma } from "../../lib/prisma";
 import config from "../../config";
-import { RegisterUserPayload } from "./auth.interface";
+import { IloginUser, RegisterUserPayload } from "./auth.interface";
 
 
 const registerUserIntoDB = async (payload:RegisterUserPayload)=>{
@@ -29,9 +29,18 @@ return createUser;
 }
 
 
-const loginUser = () =>{
-
+const loginUser = async(payload:IloginUser) =>{
+const {email,password} = payload;
+const user  = await prisma.user.findUniqueOrThrow({
+    where:{email}
+})
+const ispasswordMatched = await bcrypt.compare(password,user.password)
+if(!ispasswordMatched){
+    throw new Error("password is incorrect")
 }
+return user;
+}
+
 
 
 

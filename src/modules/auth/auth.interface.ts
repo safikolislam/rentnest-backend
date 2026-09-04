@@ -4,3 +4,9 @@ export interface RegisterUserPayload {
     password:string;
     role?:"TENANT" | "LANDLORD" ;
 }
+
+
+export interface IloginUser {
+    email:string,
+    password:string
+}
