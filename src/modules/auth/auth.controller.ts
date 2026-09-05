@@ -7,9 +7,6 @@ import { validateLoginInput, validateRegistrationInput } from "./auth.validation
 
 
 
-
-
-
 const registerUser = catchAsync( async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;
      const errors = validateRegistrationInput(payload);
@@ -39,12 +36,27 @@ const loginUser = catchAsync(async(req:Request,res:Response,next:NextFunction)=>
     if(errors.length>0){
         return res.status(400).json({success:false,message:"Validation failed",errorDetails:errors})
     }
-    const loginResult = await authService.loginUser(payload)
+    const {accessToken,refreshToken} = await authService.loginUser(payload)
+    res.cookie("accessToken",accessToken,{
+        httpOnly:true,
+        secure:false,
+        sameSite:"none",
+        maxAge: 1000 * 60 * 60 *24 //24 hour
+    })
+    res.cookie("refreshToken",refreshToken,{
+        httpOnly:true,
+        secure:false,
+        sameSite:"none",
+        maxAge: 1000 * 60 * 60 * 24* 7 // 7day
+    })
+
+
+    
     sendResponse(res,{
         success:true,
         statusCode:status.OK,
         message:"User logged in successfully",
-        data:loginResult
+        data:{accessToken,refreshToken}
     })
 })
 
