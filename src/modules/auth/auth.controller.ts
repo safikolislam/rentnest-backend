@@ -4,6 +4,9 @@ import { sendResponse } from "../../utils/sendResponse";
 import { authService } from "./auth.service";
 import status from "http-status";
 import { validateLoginInput, validateRegistrationInput } from "./auth.validation";
+import config from "../../config";
+
+import { jwtUtils } from "../../utils/jwt";
 
 
 
@@ -63,11 +66,37 @@ const loginUser = catchAsync(async(req:Request,res:Response,next:NextFunction)=>
 
 
 
+const getMyProfile = catchAsync(async(req:Request,res:Response,next:NextFunction)=>{
+
+    const {accessToken} = req.cookies;
+    
+
+
+    const verifiedToken = jwtUtils.verifyToken(accessToken,config.jwt_access_secret);
+if(typeof verifiedToken ==="string"){
+    throw new Error(verifiedToken)
+}
+const profile = await authService.getMyprofileFromDB(verifiedToken.id)
+
+
+sendResponse(res,{
+    success:true,
+    statusCode:status.OK,
+    message:"User profile fetched successfully",
+    data:{profile}
+})
+
+})
+
+
+
+
 
 
 
 export const authController = {
     registerUser,
-    loginUser
+    loginUser,
+    getMyProfile,
    
 }
