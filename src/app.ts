@@ -4,6 +4,7 @@ import { authRoutes } from "./modules/auth/auth.routes";
 import cookieParser from "cookie-parser"
 import { categoryRoute } from "./modules/category/category.route";
 import { propertyRoute } from "./modules/property/property.route";
+import { landlordPropertyRoute } from "./modules/property/landlordProperty.route";
 
 const app: Application = express();
 app.use(express.json());
@@ -13,10 +14,12 @@ app.get("/", (req: Request, res: Response) => {
     res.send("rentnest server is running")
 })
 
-app.use("/api/auth", authRoutes)
+app.use("/api/auth", authRoutes);
 
-app.use("/api/categories",categoryRoute)
+app.use("/api/categories",categoryRoute);
 
-app.use("/api/properties",propertyRoute)
+app.use("/api/properties",propertyRoute);
+
+app.use("/api/landlord/properties",landlordPropertyRoute)
 
 export default app;
