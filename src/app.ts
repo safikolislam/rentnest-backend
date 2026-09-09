@@ -1,11 +1,14 @@
 
-import express, { Application, Request, Response } from "express";
+import express, { Application, NextFunction, Request, Response } from "express";
 import { authRoutes } from "./modules/auth/auth.routes";
 import cookieParser from "cookie-parser"
 import { categoryRoute } from "./modules/category/category.route";
 import { propertyRoute } from "./modules/property/property.route";
 import { landlordPropertyRoute } from "./modules/property/landlordProperty.route";
 import { rentalRequestRoutes } from "./modules/rentalRequest/rentalRequest.route";
+import { notFound } from "./middlewares/notFound";
+import { globalErrorHandler } from "./middlewares/globalErrorHandler";
+
 
 const app: Application = express();
 app.use(express.json());
@@ -24,5 +27,9 @@ app.use("/api/properties",propertyRoute);
 app.use("/api/landlord/properties",landlordPropertyRoute)
 
 
-app.use("/api",rentalRequestRoutes)
+app.use("/api",rentalRequestRoutes);
+
+app.use(notFound)
+  app.use(globalErrorHandler)
+
 export default app;

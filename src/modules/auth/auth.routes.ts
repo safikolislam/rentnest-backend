@@ -1,9 +1,8 @@
-import { NextFunction, Request, Response, Router } from "express";
+import {  Router } from "express";
 import { authController } from "./auth.controller";
-import { jwtUtils } from "../../utils/jwt";
-import config from "../../config";
+
 import { Role } from "../../../prisma/generated/prisma/enums";
-import status from "http-status";
+
 import { auth } from "../../middlewares/auth";
 
 const router = Router();
