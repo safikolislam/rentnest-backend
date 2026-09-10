@@ -31,7 +31,7 @@ const createPaymentSession = async (rentalRequestId: string, userId: string) => 
                 price_data: {
                     currency: "usd",
                     product_data: { name: rentalRequest.property.title },
-                    unit_amount: Math.round(amount * 100)  // Stripe cents এ নেয়
+                    unit_amount: Math.round(amount * 100)  
                 },
                 quantity: 1
             }
