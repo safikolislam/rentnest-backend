@@ -21,3 +21,22 @@ enum RequestStatus {
   APPROVED
   REJECTED
 }
+
+
+enum PaymentProvider {
+  STRIPE
+}
+
+enum RentalRequestStatus {
+  PENDING
+  APPROVED
+  REJECTED
+  ACTIVE
+  COMPLETED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}

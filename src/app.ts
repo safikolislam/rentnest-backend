@@ -1,5 +1,5 @@
 
-import express, { Application, NextFunction, Request, Response } from "express";
+import express, { Application, Request, Response } from "express";
 import { authRoutes } from "./modules/auth/auth.routes";
 import cookieParser from "cookie-parser"
 import { categoryRoute } from "./modules/category/category.route";
@@ -8,6 +8,7 @@ import { landlordPropertyRoute } from "./modules/property/landlordProperty.route
 import { rentalRequestRoutes } from "./modules/rentalRequest/rentalRequest.route";
 import { notFound } from "./middlewares/notFound";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
+import { paymentRoute } from "./middlewares/payment/payment.route";
 
 
 const app: Application = express();
@@ -28,7 +29,7 @@ app.use("/api/landlord/properties",landlordPropertyRoute)
 
 
 app.use("/api",rentalRequestRoutes);
-
+app.use("/api/payments",paymentRoute)
 app.use(notFound)
   app.use(globalErrorHandler)
 
