@@ -10,6 +10,7 @@ import { notFound } from "./middlewares/notFound";
 import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { paymentRoute } from "./middlewares/payment/payment.route";
 import { reviewRoutes } from "./modules/review/review.route";
+import { adminRoute } from "./modules/admin/admin.route";
 
 
 const app: Application = express();
@@ -26,12 +27,14 @@ app.use("/api/categories",categoryRoute);
 
 app.use("/api/properties",propertyRoute);
 
-app.use("/api/landlord/properties",landlordPropertyRoute)
+app.use("/api/landlord/properties",landlordPropertyRoute);
 
 
 app.use("/api",rentalRequestRoutes);
 app.use("/api/payments",paymentRoute);
-app.use("/api/reviews",reviewRoutes)
+app.use("/api/reviews",reviewRoutes);
+app.use("/api/admin",adminRoute)
+
 app.use(notFound)
   app.use(globalErrorHandler)
 
