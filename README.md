@@ -1,4 +1,4 @@
-# RentNest 🏠
+# RentNest 
 
 Backend API for a rental property marketplace where Landlords can list properties, and Tenants can browse, submit rental requests, and make payments.
 
@@ -48,4 +48,6 @@ Backend API for a rental property marketplace where Landlords can list propertie
 - Email: admin@rentnest.com
 - Password: 223344556677
 
+
 ## API Documentation
+[Postman Documentation](https://documenter.getpostman.com/view/45368212/2sBYAys8sr)
