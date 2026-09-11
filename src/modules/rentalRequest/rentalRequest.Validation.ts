@@ -1,4 +1,7 @@
-import { RequestStatus } from "../../../prisma/generated/prisma/enums";
+
+
+
+import { RequestStatus } from "../../generated/prisma/enums";
 import { RentalRequestPayload } from "./rentalRequest.interface";
 
 
