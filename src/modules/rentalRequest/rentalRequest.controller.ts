@@ -1,7 +1,8 @@
-import { Request, Response } from "express";
+
 import { catchAsync } from "../../utils/catchAsync";
 import { rentalRequestValidation } from "./rentalRequest.Validation";
 import { rentalRequestService } from "./rentalRequest.Service";
+import type { Request, Response } from "express";
 
 
 const createRequest = catchAsync(async (req: Request, res: Response) => {

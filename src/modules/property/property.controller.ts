@@ -1,9 +1,10 @@
-import { NextFunction, Request, Response } from "express";
+
 import { catchAsync } from "../../utils/catchAsync";
 import status from "http-status";
 import { propertyService } from "./property.service";
 import { sendResponse } from "../../utils/sendResponse";
 import { validatePropertyInput } from "./property.validation";
+import type { NextFunction, Request, Response } from "express";
 
 const createProperty = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;

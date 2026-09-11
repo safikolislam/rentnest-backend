@@ -7,19 +7,19 @@
   "type": "module",
   "main": "server.ts",
   "scripts": {
-  
-  "dev": "tsx watch src/server.ts",
-  "build": "prisma generate && tsc",
-  "outputDirectory":"dist",
-  "start": "node dist/server.js",
-  "test": "echo \"Error: no test specified\" && exit 1"
-},
+    "dev": "tsx watch src/server.ts",
+    "build": "tsup",
+   
+    "start": "node dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "devDependencies": {
     "@types/cookie-parser": "^1.4.10",
     "@types/express": "^5.0.6",
     "@types/jsonwebtoken": "^9.0.10",
-    "@types/node": "^26.4.0",
+    "@types/node": "^26.5.1",
     "@types/pg": "^8.23.1",
+    "dotenv": "^17.4.2",
     "prisma": "^7.10.0",
     "tsup": "^8.5.1",
     "tsx": "^4.23.12",
@@ -31,7 +31,6 @@
     "bcryptjs": "^3.0.3",
     "cookie-parser": "^1.4.7",
     "cors": "^2.8.6",
-    "dotenv": "^17.4.2",
     "express": "^5.2.1",
     "http-status": "^2.1.0",
     "jsonwebtoken": "^9.0.3",

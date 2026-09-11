@@ -1,5 +1,5 @@
 
-import express, { Application, Request, Response } from "express";
+import express from "express"
 import { authRoutes } from "./modules/auth/auth.routes";
 import cookieParser from "cookie-parser"
 import { categoryRoute } from "./modules/category/category.route";
@@ -11,6 +11,7 @@ import { globalErrorHandler } from "./middlewares/globalErrorHandler";
 import { paymentRoute } from "./modules/payment/payment.route";
 import { reviewRoutes } from "./modules/review/review.route";
 import { adminRoute } from "./modules/admin/admin.route";
+import type { Application, Request, Response } from "express";
 
 
 const app: Application = express();

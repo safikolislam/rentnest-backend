@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma";
-import { CategoryPayload } from "./category.interface";
+import type { CategoryPayload } from "./category.interface";
+
 
 const createCategoryIntoDB = async (payload:CategoryPayload)=>{
     const {name} = payload;

@@ -1,5 +1,6 @@
-import { NextFunction, Request, Response } from "express";
 
+
+import type { NextFunction, Request, Response } from "express";
 import { Prisma } from "../generated/prisma/client";
 import status from "http-status";
 

@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma"
-import { PropertyPayload, PropertyFilters } from "./property.interface";
+import type { PropertyFilters, PropertyPayload } from "./property.interface";
+
 
 const createPropertyIntoDB = async (payload: PropertyPayload, landlordId: string) => {
     const property = await prisma.property.create({

@@ -1,10 +1,11 @@
-import { NextFunction, Request, Response } from "express";
+
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 
 import { validatePaymentInput } from "./payment.validation";
 import status from "http-status";
 import { paymentService } from "./payment.service";
+import type { NextFunction, Request, Response } from "express";
 
 const createPaymentSession = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const payload = req.body;

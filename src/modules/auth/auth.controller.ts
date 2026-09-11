@@ -1,9 +1,10 @@
-import { NextFunction, Request, Response } from "express";
+
 import { catchAsync } from "../../utils/catchAsync";
 import { sendResponse } from "../../utils/sendResponse";
 import { authService } from "./auth.service";
 import status from "http-status";
 import { validateLoginInput, validateRegistrationInput } from "./auth.validation";
+import type { NextFunction, Request, Response } from "express";
 
 
 
