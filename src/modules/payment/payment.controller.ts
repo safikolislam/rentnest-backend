@@ -32,7 +32,7 @@ const createPaymentSession = catchAsync(async (req: Request, res: Response, next
 })
 
 const handleWebhook = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const event = req.body;   // Stripe webhook থেকে event আসবে
+    const event = req.body;   
 
     if (event.type === "checkout.session.completed") {
         await paymentService.confirmPayment(event.data.object);
