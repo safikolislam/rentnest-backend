@@ -1,5 +1,6 @@
 import { prisma } from "../../lib/prisma";
-import { IcreateReview } from "./review.interface";
+import type { IcreateReview } from "./review.interface";
+
 
 const createReview = async (tenantId: string, payload: IcreateReview) => {
   const { propertyId, rating, comment } = payload;

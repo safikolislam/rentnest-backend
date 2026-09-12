@@ -45,7 +45,7 @@ Backend API for a rental property marketplace where Landlords can list propertie
    \`\`\`
 
 ## Admin Credentials
-- Email: admin@rentnest.com
+- Email: 
 - Password: 223344556677
 
 

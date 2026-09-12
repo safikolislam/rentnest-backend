@@ -1,7 +1,8 @@
 
 import { RequestStatus } from "../../generated/prisma/enums";
 import { prisma } from "../../lib/prisma";
-import { RentalRequestPayload } from "./rentalRequest.interface";
+import type { RentalRequestPayload } from "./rentalRequest.interface";
+
 
 
 const createRequestIntoDB = async (payload: RentalRequestPayload, tenantId: string) => {
