@@ -382,23 +382,9 @@ Landlord
 
 Approve/reject rental request
 
-Rental Request Flow
 
-PENDING
-   │
-   ├── Landlord approves
-   │        ↓
-   │     APPROVED
-   │        ↓
-   │     PAYMENT
-   │        ↓
-   │      ACTIVE
-   │        ↓
-   │    COMPLETED
-   │
-   └── Landlord rejects
-            ↓
-         REJECTED
+
+
 
 💳 Payments - Stripe
 
@@ -671,37 +657,7 @@ npm run build
 
 npm start
 
-📁 Project Structure
 
-rentnest-backend/
-│
-├── prisma/
-│   ├── schema.prisma
-│   └── seed.ts
-│
-├── src/
-│   ├── generated/
-│   ├── lib/
-│   ├── middlewares/
-│   ├── modules/
-│   │   ├── admin/
-│   │   ├── auth/
-│   │   ├── category/
-│   │   ├── payment/
-│   │   ├── property/
-│   │   ├── rentalRequest/
-│   │   └── review/
-│   │
-│   ├── utils/
-│   ├── app.ts
-│   └── server.ts
-│
-├── .env.example
-├── package.json
-├── prisma7.config.ts
-├── tsconfig.json
-├── tsup.config.ts
-└── vercel.json
 
 ☁️ Deployment
 

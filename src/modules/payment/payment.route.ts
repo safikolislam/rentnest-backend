@@ -5,7 +5,7 @@ import { auth } from "../../middlewares/auth";
 const router = Router();
 
 router.post("/create", auth("TENANT"), paymentController.createPaymentSession);
-router.post("/confirm", paymentController.handleWebhook);   // Stripe webhook, auth লাগবে না
+router.post("/confirm", paymentController.handleWebhook);   
 router.get("/", auth(), paymentController.getMyPayments);
 router.get("/:id", auth(), paymentController.getSinglePayment);
 
