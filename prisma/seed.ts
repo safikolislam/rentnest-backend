@@ -8,8 +8,8 @@ async function main() {
         where: { email: "admin@rentnest.com" },
         update: {},
         create: {
-            name: "Admin",
-            email: "shakilkhandoker",
+            name: "Shakil",
+            email: "ShakilMia22@gmail.com",
             password: hashedPassword,
             role: "ADMIN",
         },
