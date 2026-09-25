@@ -1,9 +1,6 @@
 import { prisma } from "../../lib/prisma";
-
 import config from "../../config";
 import { stripe } from "../../lib/stripe";
-
-
 
 const createPaymentSession = async (rentalRequestId: string, userId: string) => {
     const rentalRequest = await prisma.rentalRequest.findUnique({
@@ -37,13 +34,14 @@ const createPaymentSession = async (rentalRequestId: string, userId: string) => 
             }
         ],
         mode: "payment",
-        success_url: `${config.frontend_url}/payment/success?transactionId=${rentalRequestId}`,
-        cancel_url: `${config.frontend_url}/payment/cancel`,
+        
+        success_url: `${config.frontend_url}/dashboard/tenant?success=true&rentalRequestId=${rentalRequestId}`,
+        cancel_url: `${config.frontend_url}/dashboard/tenant?canceled=true`,
         metadata: { rentalRequestId, userId }
     });
 
     return { paymentUrl: session.url };
-}
+};
 
 const confirmPayment = async (payload: any) => {
     const { rentalRequestId, userId } = payload.metadata;
@@ -69,21 +67,21 @@ const confirmPayment = async (payload: any) => {
         where: { id: rentalRequestId },
         data: { status: "ACTIVE" }
     });
-}
+};
 
 const getMyPayments = async (userId: string) => {
     return prisma.payment.findMany({ where: { userId } });
-}
+};
 
 const getSinglePayment = async (id: string) => {
     const payment = await prisma.payment.findUnique({ where: { id } });
     if (!payment) throw new Error("Payment not found");
     return payment;
-}
+};
 
 export const paymentService = {
     createPaymentSession,
     confirmPayment,
     getMyPayments,
     getSinglePayment
-}
+};
