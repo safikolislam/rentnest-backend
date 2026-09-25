@@ -31,14 +31,14 @@ const createPaymentSession = async (rentalRequestId: string, userId: string) => 
                 price_data: {
                     currency: "usd",
                     product_data: { name: rentalRequest.property.title },
-                    unit_amount: Math.round(amount * 100)  
+                    unit_amount: Math.round(amount * 100)
                 },
                 quantity: 1
             }
         ],
         mode: "payment",
-        success_url: `${config.app_url}/api/payments?success=true`,
-        cancel_url: `${config.app_url}/api/payments?success=false`,
+        success_url: `${config.frontend_url}/payment/success?transactionId=${rentalRequestId}`,
+        cancel_url: `${config.frontend_url}/payment/cancel`,
         metadata: { rentalRequestId, userId }
     });
 
