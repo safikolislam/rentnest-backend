@@ -21,8 +21,10 @@ const createPaymentSession = async (rentalRequestId: string, userId: string) => 
     }
 
     const amount = rentalRequest.property.price;
+    const baseUrl = (process.env.FRONTEND_URL || "http://localhost:5173").replace(/\/+$/, "");
 
     const session = await stripe.checkout.sessions.create({
+        payment_method_types: ["card"],
         line_items: [
             {
                 price_data: {
@@ -34,17 +36,24 @@ const createPaymentSession = async (rentalRequestId: string, userId: string) => 
             }
         ],
         mode: "payment",
-        
-        success_url: `${config.frontend_url}/dashboard/tenant?success=true&rentalRequestId=${rentalRequestId}`,
-        cancel_url: `${config.frontend_url}/dashboard/tenant?canceled=true`,
-        metadata: { rentalRequestId, userId }
+        success_url: `${baseUrl}/dashboard/tenant?success=true&rentalRequestId=${rentalRequestId}`,
+        cancel_url: `${baseUrl}/dashboard/tenant?canceled=true`,
+        metadata: {
+            rentalRequestId: String(rentalRequestId),
+            userId: String(userId)
+        }
     });
 
     return { paymentUrl: session.url };
 };
 
 const confirmPayment = async (payload: any) => {
-    const { rentalRequestId, userId } = payload.metadata;
+    const session = payload;
+    const { rentalRequestId, userId } = session.metadata || {};
+
+    if (!rentalRequestId || !userId) {
+        throw new Error("Missing metadata in payment session");
+    }
 
     const rentalRequest = await prisma.rentalRequest.findUniqueOrThrow({
         where: { id: rentalRequestId },
@@ -53,7 +62,7 @@ const confirmPayment = async (payload: any) => {
 
     await prisma.payment.create({
         data: {
-            transactionId: payload.id,
+            transactionId: session.id,
             rentalRequestId,
             userId,
             amount: rentalRequest.property.price,
@@ -70,7 +79,10 @@ const confirmPayment = async (payload: any) => {
 };
 
 const getMyPayments = async (userId: string) => {
-    return prisma.payment.findMany({ where: { userId } });
+    return prisma.payment.findMany({
+        where: { userId },
+        orderBy: { createdAt: "desc" }
+    });
 };
 
 const getSinglePayment = async (id: string) => {
