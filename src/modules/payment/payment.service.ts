@@ -21,7 +21,7 @@ const createPaymentSession = async (rentalRequestId: string, userId: string) => 
     }
 
     const amount = rentalRequest.property.price;
-    const baseUrl = (process.env.FRONTEND_URL || "http://localhost:5173").replace(/\/+$/, "");
+    const baseUrl = (process.env.FRONTEND_URL || "http://localhost:3000").replace(/\/+$/, "");
 
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
