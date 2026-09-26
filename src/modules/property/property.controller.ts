@@ -1,4 +1,3 @@
-
 import { catchAsync } from "../../utils/catchAsync";
 import status from "http-status";
 import { propertyService } from "./property.service";
@@ -42,6 +41,19 @@ const getAllProperties = catchAsync(async (req: Request, res: Response, next: Ne
         success: true,
         statusCode: status.OK,
         message: "Properties retrieved successfully",
+        data: properties
+    })
+})
+
+
+const getMyProperties = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+    const landlordId = req.user!.id;
+    const properties = await propertyService.getLandlordPropertiesFromDB(landlordId);
+
+    sendResponse(res, {
+        success: true,
+        statusCode: status.OK,
+        message: "Landlord properties retrieved successfully",
         data: properties
     })
 })
@@ -90,6 +102,7 @@ const deleteProperty = catchAsync(async (req: Request, res: Response, next: Next
 export const propertyController = {
     createProperty,
     getAllProperties,
+    getMyProperties, 
     getSingleProperty,
     updateProperty,
     deleteProperty

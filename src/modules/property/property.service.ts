@@ -40,11 +40,10 @@ const getAllPropertiesFromDB = async (filters: PropertyFilters) => {
     return properties;
 }
 
-
 const getLandlordPropertiesFromDB = async (landlordId: string) => {
     const properties = await prisma.property.findMany({
         where: {
-            landlordId: landlordId, 
+            landlordId: landlordId,
         },
         include: {
             category: true,
@@ -118,7 +117,8 @@ const deletePropertyFromDB = async (id: string, landlordId: string) => {
 export const propertyService = {
     createPropertyIntoDB,
     getAllPropertiesFromDB,
-    getLandlordPropertiesFromDB, 
+    getLandlordPropertiesFromDB,
+    getSinglePropertyFromDB,
     updatePropertyIntoDB,
     deletePropertyFromDB,
 }
