@@ -1,5 +1,5 @@
 import { prisma } from "../../lib/prisma";
-import config from "../../config";
+
 import { stripe } from "../../lib/stripe";
 
 const createPaymentSession = async (rentalRequestId: string, userId: string) => {
@@ -21,7 +21,7 @@ const createPaymentSession = async (rentalRequestId: string, userId: string) => 
     }
 
     const amount = rentalRequest.property.price;
-    const baseUrl = (process.env.FRONTEND_URL || "http://localhost:3000").replace(/\/+$/, "");
+    const baseUrl = process.env.FRONTEND_URL?.replace(/\/+$/, "") || "";
 
     const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
@@ -36,8 +36,8 @@ const createPaymentSession = async (rentalRequestId: string, userId: string) => 
             }
         ],
         mode: "payment",
-        success_url: `${baseUrl}/dashboard/tenant?success=true&rentalRequestId=${rentalRequestId}`,
-        cancel_url: `${baseUrl}/dashboard/tenant?canceled=true`,
+        success_url: `${baseUrl}/payment/success?rentalRequestId=${rentalRequestId}`,
+        cancel_url: `${baseUrl}/payment/cancel?rentalRequestId=${rentalRequestId}`,
         metadata: {
             rentalRequestId: String(rentalRequestId),
             userId: String(userId)
