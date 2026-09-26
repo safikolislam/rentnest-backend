@@ -1,11 +1,12 @@
 import { prisma } from "../../lib/prisma"
 import type { PropertyFilters, PropertyPayload } from "./property.interface";
 
-const createPropertyIntoDB = async (payload: PropertyPayload, landlordId: string) => {
+const createPropertyIntoDB = async (payload: PropertyPayload, userId: string) => {
+  
     const property = await prisma.property.create({
         data: {
             ...payload,
-            landlordId,
+            landlordId: userId,
         }
     });
     return property;
@@ -40,10 +41,11 @@ const getAllPropertiesFromDB = async (filters: PropertyFilters) => {
     return properties;
 }
 
-const getLandlordPropertiesFromDB = async (landlordId: string) => {
+const getLandlordPropertiesFromDB = async (userId: string) => {
+   
     const properties = await prisma.property.findMany({
         where: {
-            landlordId: landlordId,
+            landlordId: userId,
         },
         include: {
             category: true,
@@ -79,14 +81,15 @@ const getSinglePropertyFromDB = async (id: string) => {
     return property;
 }
 
-const updatePropertyIntoDB = async (id: string, payload: Partial<PropertyPayload>, landlordId: string) => {
+const updatePropertyIntoDB = async (id: string, payload: Partial<PropertyPayload>, userId: string) => {
     const property = await prisma.property.findUnique({ where: { id } });
 
     if (!property) {
         throw new Error("Property not found");
     }
 
-    if (property.landlordId !== landlordId) {
+   
+    if (property.landlordId !== userId) {
         throw new Error("You are not authorized to update this property");
     }
 
@@ -98,14 +101,15 @@ const updatePropertyIntoDB = async (id: string, payload: Partial<PropertyPayload
     return updatedProperty;
 }
 
-const deletePropertyFromDB = async (id: string, landlordId: string) => {
+const deletePropertyFromDB = async (id: string, userId: string) => {
     const property = await prisma.property.findUnique({ where: { id } });
 
     if (!property) {
         throw new Error("Property not found");
     }
 
-    if (property.landlordId !== landlordId) {
+  
+    if (property.landlordId !== userId) {
         throw new Error("You are not authorized to delete this property");
     }
 
