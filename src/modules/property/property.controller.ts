@@ -5,7 +5,7 @@ import { sendResponse } from "../../utils/sendResponse";
 import { validatePropertyInput } from "./property.validation";
 import type { NextFunction, Request, Response } from "express";
 
-const createProperty = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const createProperty = catchAsync(async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
     const payload = req.body;
     const errors = validatePropertyInput(payload);
     if (errors.length > 0) {
@@ -14,17 +14,19 @@ const createProperty = catchAsync(async (req: Request, res: Response, next: Next
             statusCode: status.BAD_REQUEST,
             message: "Validation failed",
             errorDetails: errors
-        })
+        });
     }
-    const landloardId = req.user!.id;
-    const property = await propertyService.createPropertyIntoDB(payload, landloardId)
+
+    const userId = req.user?.id || req.user?.userId;
+    const property = await propertyService.createPropertyIntoDB(payload, userId);
+
     sendResponse(res, {
         success: true,
         statusCode: status.CREATED,
         message: "Property created successfully",
         data: property
-    })
-})
+    });
+});
 
 const getAllProperties = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { location, minPrice, maxPrice, categoryId, amenities } = req.query;
@@ -42,68 +44,69 @@ const getAllProperties = catchAsync(async (req: Request, res: Response, next: Ne
         statusCode: status.OK,
         message: "Properties retrieved successfully",
         data: properties
-    })
-})
+    });
+});
 
-
-const getMyProperties = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const landlordId = req.user!.id;
-    const properties = await propertyService.getLandlordPropertiesFromDB(landlordId);
+const getMyProperties = catchAsync(async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
+    const userId = req.user?.id || req.user?.userId;
+    const properties = await propertyService.getLandlordPropertiesFromDB(userId);
 
     sendResponse(res, {
         success: true,
         statusCode: status.OK,
         message: "Landlord properties retrieved successfully",
         data: properties
-    })
-})
+    });
+});
 
 const getSingleProperty = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const property = await propertyService.getSinglePropertyFromDB(id as string)
+    const property = await propertyService.getSinglePropertyFromDB(id as string);
 
     sendResponse(res, {
         success: true,
         statusCode: status.OK,
-        message: "Property retrived successfully",
+        message: "Property retrieved successfully",
         data: property
-    })
-})
+    });
+});
 
-const updateProperty = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const updateProperty = catchAsync(async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const landlordId = req.user!.id;
+    const userId = req.user?.id || req.user?.userId;
     const payload = req.body;
 
-    const property = await propertyService.updatePropertyIntoDB(id as string, payload, landlordId);
+    const property = await propertyService.updatePropertyIntoDB(id as string, payload, userId);
 
     sendResponse(res, {
         success: true,
         statusCode: status.OK,
         message: "Property updated successfully",
         data: property
-    })
-})
+    });
+});
 
-const deleteProperty = catchAsync(async (req: Request, res: Response, next: NextFunction) => {
+const deleteProperty = catchAsync(async (req: Request & { user?: any }, res: Response, next: NextFunction) => {
     const { id } = req.params;
-    const landlordId = req.user!.id;
+    const userId = req.user?.id || req.user?.userId;
 
-    await propertyService.deletePropertyFromDB(id as string, landlordId);
+    await propertyService.deletePropertyFromDB(id as string, userId);
 
     sendResponse(res, {
         success: true,
         statusCode: status.OK,
         message: "Property deleted successfully",
         data: null
-    })
-})
+    });
+});
 
-export const propertyController = {
+const propertyController = {
     createProperty,
     getAllProperties,
-    getMyProperties, 
+    getMyProperties,
     getSingleProperty,
     updateProperty,
     deleteProperty
-}
+};
+
+export default propertyController;

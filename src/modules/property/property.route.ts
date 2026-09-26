@@ -1,6 +1,7 @@
 import { Router } from "express";
-import { propertyController } from "./property.controller";
+
 import { auth } from "../../middlewares/auth";
+import propertyController from "./property.controller";
 
 const router = Router();
 

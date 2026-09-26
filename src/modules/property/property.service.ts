@@ -2,7 +2,6 @@ import { prisma } from "../../lib/prisma"
 import type { PropertyFilters, PropertyPayload } from "./property.interface";
 
 const createPropertyIntoDB = async (payload: PropertyPayload, userId: string) => {
-  
     const property = await prisma.property.create({
         data: {
             ...payload,
@@ -42,7 +41,6 @@ const getAllPropertiesFromDB = async (filters: PropertyFilters) => {
 }
 
 const getLandlordPropertiesFromDB = async (userId: string) => {
-   
     const properties = await prisma.property.findMany({
         where: {
             landlordId: userId,
@@ -88,7 +86,6 @@ const updatePropertyIntoDB = async (id: string, payload: Partial<PropertyPayload
         throw new Error("Property not found");
     }
 
-   
     if (property.landlordId !== userId) {
         throw new Error("You are not authorized to update this property");
     }
@@ -108,10 +105,30 @@ const deletePropertyFromDB = async (id: string, userId: string) => {
         throw new Error("Property not found");
     }
 
-  
     if (property.landlordId !== userId) {
         throw new Error("You are not authorized to delete this property");
     }
+
+    const rentalRequests = await prisma.rentalRequest.findMany({
+        where: { propertyId: id },
+        select: { id: true }
+    });
+
+    const rentalRequestIds = rentalRequests.map((r) => r.id);
+
+    if (rentalRequestIds.length > 0) {
+        await prisma.payment.deleteMany({
+            where: { rentalRequestId: { in: rentalRequestIds } }
+        });
+    }
+
+    await prisma.review.deleteMany({
+        where: { propertyId: id }
+    });
+
+    await prisma.rentalRequest.deleteMany({
+        where: { propertyId: id },
+    });
 
     await prisma.property.delete({ where: { id } });
 
